@@ -2,7 +2,6 @@
 
 下面簡單敘述檔案上傳的流程
 
-1. 前端
 ```html
 <form action="testfunction/run" method="post" enctype="multipart/form-data">
   <input type="file" name="file">
@@ -10,7 +9,6 @@
 </from>
 ```
 
-2. 後端
 ```php
 <?php
 $config = [
