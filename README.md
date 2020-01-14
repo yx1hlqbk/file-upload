@@ -1,11 +1,14 @@
-# 簡單檔案上傳 file upload
+# 基本介紹
+- 簡單檔案上傳 file upload
 
-下面簡單敘述檔案上傳的流程
+# 環境
+- php 5
 
+# 操作
 ```html
 <form action="testfunction/run" method="post" enctype="multipart/form-data">
-  <input type="file" name="file">
-  <input type="submit" value="send">
+  <input type="file" name="file"/>
+  <input type="submit" value="send"/>
 </from>
 ```
 
@@ -26,8 +29,9 @@ $config = [
 run('file', $config);
 
 ```
-*備註 :
-1. $config['uploadPath'] 如不在$config，預設位置為 ./public/uploads/
-2. $config['allowedType'] 可填寫其他格式，EX: ['jpg','gif'] 用array方式呈現
-3. 圖片壓縮只支援 'gif', 'jpg', 'png', 'bmp', 'jpeg' 格式
-4. 如果沒有同時指定壓縮寬與高，則會自動壓縮原比例的0.5
+# 備註
+
+- $config['uploadPath'] 如不在$config，預設位置為 ./public/uploads/
+- $config['allowedType'] 可填寫其他格式，EX: ['jpg','gif'] 用array方式呈現
+- 圖片壓縮只支援 'gif', 'jpg', 'png', 'bmp', 'jpeg' 格式
+- 如果沒有同時指定壓縮寬與高，則會自動壓縮原比例的0.5
