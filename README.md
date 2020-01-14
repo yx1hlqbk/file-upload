@@ -12,14 +12,15 @@
 ```php
 <?php
 $config = [
-  'returnMessage' => false, => 回傳錯誤訊息
-  'uploadPath' => '', => 檔案上傳位置
-  'allowedType' => '*', => 支援檔案類型
-  'typeOf' => 'img', => 檔案類型
-  'rename' => false, => 重新命名
-  'compress' => false, => 壓縮圖檔
-  'width' => '150', => 壓縮寬
-  'height' => '150' => 壓縮高
+  'returnNameType' => 'name', //回傳內容
+  'returnMessage' => false, //回傳錯誤訊息
+  'uploadPath' => '', //檔案上傳位置
+  'allowedType' => '*', //支援檔案類型
+  'typeOf' => 'img', //檔案類型
+  'rename' => false,  //重新命名
+  'compress' => false, //壓縮圖檔
+  'width' => '150',  //壓縮寬
+  'height' => '150' //壓縮高
 ];
 
 run('file', $config);
