@@ -1,39 +1,82 @@
 <?php
 
 /**
-  *
-  */
+ * 檔案上傳
+ */
 class Upload
 {
+    /**
+     * 回傳訊息
+     */
     protected $returnMessage = false;
 
+    /**
+     * 檢查次數
+     */
     protected $repeatCount = 50;
 
-    protected $uploadPath = './public/uploads/';
+    /**
+     * 上傳位置
+     */
+    protected $uploadPath = './public/uploads/web/';
 
+    /**
+     * 檔案類型
+     */
     protected $typeOf = '';
 
+    /**
+     * 重新命名
+     */
     protected $rename = false;
 
+    /**
+     * 檢查檔案名稱是否有特殊字元
+     */
     protected $fileNameCharacter = false;
 
+    /**
+     * 回傳類型
+     *
+     * true : 檔名， false : 路徑
+     */
+    protected $returnNameType = 'path';
+
+    /**
+     * 允許檔案類型
+     */
     protected $allowedType = '*';
 
+    /**
+     * 禁止上傳類型
+     */
     protected $unallowedType = ['php', 'html', 'xml', 'asp', 'jspx', 'jsp'];
 
+    /**
+     * 圖片壓縮
+     */
     protected $compress = false;
 
+    /**
+     * 壓縮比例
+     */
     protected $compressRatio = 0.5;
 
+    /**
+     * 壓縮寬度
+     */
     protected $width = '';
 
+    /**
+     * 壓縮高度
+     */
     protected $height = '';
 
     /**
-      * 變數初始設定
-      *
-      * @param array $config
-      */
+     * 變數初始設定
+     *
+     * @param array $config
+     */
     private function init($config)
     {
         foreach ($config as $key => $value) {
@@ -42,11 +85,11 @@ class Upload
     }
 
     /**
-      * 執行
-      *
-      * @param string $name
-      * @param array $config
-      */
+     * 執行
+     *
+     * @param string $name
+     * @param array $config
+     */
     public function run($name = '', $config = [])
     {
         $this->init($config);
@@ -84,17 +127,17 @@ class Upload
                 $this->compressImg($path, $this->width, $this->height);
             }
 
-            return $fileNameNew;
+            return $this->returnNameType == 'name' ? $fileNameNew : $path;
         } else {
             return $this->getErrorMessage();
         }
     }
 
     /**
-      * 表單檔案上傳資料檢查
-      *
-      * @param string $name
-      */
+     * 檔案上傳檢查
+     *
+     * @param string $name
+     */
     private function formUploadCheck($name)
     {
         if (!isset($_FILES[$name])) {
@@ -114,10 +157,10 @@ class Upload
     }
 
     /**
-      * 檔案副檔名檢查
-      *
-      * @param string $fileType
-      */
+     * 檔案副檔名檢查
+     *
+     * @param string $fileType
+     */
     private function fileTypeCheck($fileType)
     {
         if (in_array(strtolower($fileType), $this->unallowedType)) {
@@ -135,20 +178,18 @@ class Upload
     }
 
     /**
-      * 上傳位置檢查
-      *
-      */
+     * 上傳位置檢查
+     */
     private function uploadPathFolderCheck()
     {
         if (!is_dir($this->uploadPath)) {
-            mkdir($this->uploadPath, 0777, TRUE);
+            mkdir($this->uploadPath, 0777, true);
         }
     }
 
     /**
-      * 檔案字元檢查
-      *
-      */
+     * 檔案字元檢查
+     */
     private function fileNameCharacterCheck($fileName)
     {
         if (mb_strlen($fileName, mb_detect_encoding($fileName)) != strlen($fileName)) {
@@ -157,18 +198,18 @@ class Upload
     }
 
     /**
-      * 檔名命名
-      *
-      * @param string $fileName
-      * @param string $fileType
-      * @param int $num
-      */
+     * 檔名命名
+     *
+     * @param string $fileName
+     * @param string $fileType
+     * @param int $num
+     */
     private function getFileName($fileName, $fileType, $num = '')
     {
         $fileName = preg_replace('/-|\*|#/', '', $fileName).$num;
 
         if ($this->rename === true) {
-            $fileName = date("Ym").rand(0,9).rand(0,9).rand(0,9);
+            $fileName = date("Ymd").rand(0,9).rand(0,9).rand(0,9);
         } else {
             if ($this->fileNameCharacter === true) {
                 $fileName = date("Ym").rand(0,9).rand(0,9).rand(0,9);
@@ -179,12 +220,12 @@ class Upload
     }
 
     /**
-      * 圖片壓縮
-      *
-      * @param string $imgSrc
-      * @param int $requestWidth
-      * @param int $requestHeight
-      */
+     * 圖片壓縮
+     *
+     * @param string $imgSrc
+     * @param int $requestWidth
+     * @param int $requestHeight
+     */
     private function compressImg($imgSrc, $requestWidth, $requestHeight)
     {
         list($width, $height, $type) = getimagesize($imgSrc); //取檔案資訊
@@ -217,10 +258,10 @@ class Upload
     }
 
     /**
-      * 錯誤訊息
-      *
-      * @param string $number
-      */
+     * 錯誤訊息
+     *
+     * @param string $number
+     */
     private function getErrorMessage($number = '')
     {
         if ($this->returnMessage === true) {
